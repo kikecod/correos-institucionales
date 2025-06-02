@@ -13,7 +13,6 @@ class InscribeDao(private val context: Context) {
             put("ci", inscribe.ci)
             put("id_carrera", inscribe.idCarrera)
             put("gestion", inscribe.gestion)
-            put("semestre", inscribe.semestre)
             put("fecha_inscripcion", inscribe.fechaInscripcion)
         }
         val resultado = db.insert("INSCRIBE", null, values)
@@ -27,21 +26,6 @@ class InscribeDao(private val context: Context) {
             "INSCRIBE",
             "ci = ? AND id_carrera = ?",
             arrayOf(ci.toString(), idCarrera.toString())
-        )
-        db.close()
-        return filas > 0
-    }
-    fun actualizar(inscribe: Inscribe): Boolean {
-        val db = Bdsqlite(context).writableDatabase
-        val values = ContentValues().apply {
-            put("gestion", inscribe.gestion)
-            put("semestre", inscribe.semestre)
-            put("fecha_inscripcion", inscribe.fechaInscripcion)
-        }
-        val filas = db.update(
-            "INSCRIBE", values,
-            "ci = ? AND id_carrera = ?",
-            arrayOf(inscribe.ci.toString(), inscribe.idCarrera.toString())
         )
         db.close()
         return filas > 0

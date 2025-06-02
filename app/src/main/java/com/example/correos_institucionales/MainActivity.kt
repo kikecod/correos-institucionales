@@ -8,17 +8,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.rememberNavController
 import com.example.correos_institucionales.data.database.Bdsqlite
-import com.example.correos_institucionales.data.dao.AsignaDao
-import com.example.correos_institucionales.data.dao.CuentaDao
-import com.example.correos_institucionales.data.dao.EstudianteDao
+import com.example.correos_institucionales.data.dao.*
 import com.example.correos_institucionales.ui.navigation.AppNavigation
-import com.example.correos_institucionales.viewmodel.AsignaViewModel
-import com.example.correos_institucionales.viewmodel.EstudianteViewModel
+import com.example.correos_institucionales.viewmodel.*
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContent {
             AppContent()
         }
@@ -32,12 +28,14 @@ fun AppContent() {
 
     val estudianteViewModel = remember { EstudianteViewModel(EstudianteDao(bd)) }
     val asignaViewModel = remember { AsignaViewModel(AsignaDao(bd), CuentaDao(context), EstudianteDao(bd)) }
+    val carreraViewModel = remember { CarreraViewModel(CarreraDao(bd)) }
 
     val navController = rememberNavController()
 
     AppNavigation(
         navController = navController,
         estudianteViewModel = estudianteViewModel,
-        asignaViewModel = asignaViewModel
+        asignaViewModel = asignaViewModel,
+        carreraViewModel = carreraViewModel
     )
 }

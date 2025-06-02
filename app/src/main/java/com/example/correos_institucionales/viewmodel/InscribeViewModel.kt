@@ -20,12 +20,12 @@ class InscribeViewModel(private val dao: InscribeDao) : ViewModel() {
         }
     }
 
-    fun actualizar(inscribe: Inscribe) {
-        viewModelScope.launch {
-            val exito = dao.actualizar(inscribe)
-            _mensaje.value = if (exito) "✅ Inscripción actualizada" else "❌ Error al actualizar"
-        }
-    }
+//    fun actualizar(inscribe: Inscribe) {
+//        viewModelScope.launch {
+//            val exito = dao.actualizar(inscribe)
+//            _mensaje.value = if (exito) "✅ Inscripción actualizada" else "❌ Error al actualizar"
+//        }
+//    }
 
     fun eliminar(ci: Int, idCarrera: Int) {
         viewModelScope.launch {

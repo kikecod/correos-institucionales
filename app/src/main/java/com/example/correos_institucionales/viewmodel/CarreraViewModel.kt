@@ -10,37 +10,40 @@ import kotlinx.coroutines.launch
 
 class CarreraViewModel(private val dao: CarreraDao) : ViewModel() {
 
+    private val _listaCarreras = MutableStateFlow<List<Carrera>>(emptyList())
+    val listaCarreras: StateFlow<List<Carrera>> = _listaCarreras
+
     private val _mensaje = MutableStateFlow("")
     val mensaje: StateFlow<String> = _mensaje
 
-    private val _carreraEncontrada = MutableStateFlow<Carrera?>(null)
-    val carreraEncontrada: StateFlow<Carrera?> = _carreraEncontrada
-
-    fun registrar(carrera: Carrera) {
+    fun cargarCarreras() {
         viewModelScope.launch {
-            val exito = dao.insertar(carrera)
-            _mensaje.value = if (exito) "✅ Carrera registrada correctamente" else "❌ Error al registrar"
+            _listaCarreras.value = dao.obtenerTodos()
         }
     }
 
-    fun buscar(id: Int) {
+    fun insertar(nombre: String, facultad: String) {
+        val nueva = Carrera(dao.generarNuevoId(), nombre, facultad)
         viewModelScope.launch {
-            _carreraEncontrada.value = dao.obtener(id)
-            _mensaje.value = if (_carreraEncontrada.value != null) "✅ Carrera encontrada" else "❌ No se encontró la carrera"
+            val exito = dao.insertar(nueva)
+            _mensaje.value = if (exito) "✅ Carrera registrada" else "❌ Error al registrar"
+            cargarCarreras()
         }
     }
 
     fun actualizar(carrera: Carrera) {
         viewModelScope.launch {
             val exito = dao.actualizar(carrera)
-            _mensaje.value = if (exito) "✅ Carrera actualizada" else "❌ Error al actualizar"
+            _mensaje.value = if (exito) "✅ Actualizada" else "❌ Error al actualizar"
+            cargarCarreras()
         }
     }
 
     fun eliminar(id: Int) {
         viewModelScope.launch {
             val exito = dao.eliminar(id)
-            _mensaje.value = if (exito) "✅ Carrera eliminada" else "❌ No se encontró para eliminar"
+            _mensaje.value = if (exito) "✅ Eliminada" else "❌ Error al eliminar"
+            cargarCarreras()
         }
     }
 }

@@ -4,7 +4,7 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
-class Bdsqlite(context: Context) : SQLiteOpenHelper(context, "correosUMSA", null, 2) {
+class Bdsqlite(context: Context) : SQLiteOpenHelper(context, "correosUMSA", null, 3) {
 
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL("""
@@ -33,8 +33,7 @@ class Bdsqlite(context: Context) : SQLiteOpenHelper(context, "correosUMSA", null
             CREATE TABLE CARRERA (
                 id_carrera INTEGER PRIMARY KEY,
                 nombre TEXT NOT NULL,
-                facultad TEXT NOT NULL,
-                duracion_anios INTEGER NOT NULL
+                facultad TEXT NOT NULL
             )
         """.trimIndent())
 
@@ -54,9 +53,8 @@ class Bdsqlite(context: Context) : SQLiteOpenHelper(context, "correosUMSA", null
                 ci INTEGER,
                 id_carrera INTEGER,
                 gestion TEXT NOT NULL,
-                semestre TEXT NOT NULL,
                 fecha_inscripcion TEXT NOT NULL,
-                PRIMARY KEY(ci, id_carrera),
+                PRIMARY KEY(ci, id_carrera, gestion),
                 FOREIGN KEY(ci) REFERENCES ESTUDIANTE(ci),
                 FOREIGN KEY(id_carrera) REFERENCES CARRERA(id_carrera)
             )

@@ -4,15 +4,19 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import com.example.correos_institucionales.viewmodel.AsignaViewModel
 import com.example.correos_institucionales.viewmodel.EstudianteViewModel
 import com.example.correos_institucionales.ui.screens.*
+import com.example.correos_institucionales.viewmodel.CarreraViewModel
 
 @Composable
 fun AppNavigation(
     navController: NavHostController,
     estudianteViewModel: EstudianteViewModel,
-    asignaViewModel: AsignaViewModel
+    asignaViewModel: AsignaViewModel,
+    carreraViewModel: CarreraViewModel
+
 ) {
     NavHost(
         navController = navController,
@@ -74,6 +78,17 @@ fun AppNavigation(
                 asignacionEditada = asignaViewModel.asignacionEditada.value,
                 onVolver = { navController.popBackStack() }
             )
+        }
+        composable("form_carrera?id={id}", arguments = listOf(navArgument("id") {
+            nullable = true
+            defaultValue = null
+        })) { backStackEntry ->
+            CarreraFormScreen(navController, carreraViewModel, backStackEntry)
+        }
+        composable("lista_carreras") {
+            CarreraListScreen(
+                navController,
+                carreraViewModel)
         }
     }
 }

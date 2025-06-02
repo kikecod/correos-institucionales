@@ -145,6 +145,13 @@ fun MainScreen(navController: NavController) {
                         subtitle = "Gestionar asignaciones de correo",
                         onClick = { navController.navigate("lista_asignaciones") }
                     )
+
+                    MenuButton(
+                        icon = Icons.Default.School,
+                        title = "Gestionar Carreras",
+                        subtitle = "Agregar o editar carreras universitarias",
+                        onClick = { navController.navigate("lista_carreras") }
+                    )
                 }
             }
 
